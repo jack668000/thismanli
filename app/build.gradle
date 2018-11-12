@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'org.greenrobot.greendao'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+    }
+}
+
+
+greendao {
+    schemaVersion 1  //版本
+    daoPackage 'net.mytestfragment.com.testfragment.greendao' // 一般为app包名+生成文件的文件夹名
+    targetGenDir 'src/main/java' //生成文件路径
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        applicationId "net.mytestfragment.com.testfragment"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        //sdk中只提供了armeabi的文件夹和对应so文件
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:design:28.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    androidTestImplementation 'junit:junit:4.12'
+    implementation 'com.zyao89:zloading:1.0.0'
+    implementation 'com.jaeger.statusbaruitl:library:1.3.5'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.lqr.recyclerview:library:1.0.2'
+    implementation 'com.lqr.adapter:library:1.0.2'
+
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.yanzhenjie:sofia:1.0.5'
+
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+
+}
